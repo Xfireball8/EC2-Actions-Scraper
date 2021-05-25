@@ -1,1 +1,4 @@
 # Python Requirements
+
+urllib2 # To get HTML page
+beautifulsoup4 # To get data out of HTML Code
