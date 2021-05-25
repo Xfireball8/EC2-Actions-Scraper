@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+  graphbuilder:
+    build: .
+    volumes:
+      - ./res:/usr/src/app/res/
