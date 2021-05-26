@@ -3,5 +3,4 @@ services:
   graphbuilder:
     build: .
     volumes:
-      - ./res:/usr/src/app/res/
       - ./code:/usr/src/app/
