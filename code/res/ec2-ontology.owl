@@ -1,5 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+	<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+	<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+]>
+<rdf:RDF
+	xmlns:owl ="http://www.w3.org/2002/07/owl#"
+	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:xsd ="http://www.w3.org/2001/XMLSchema#">
+	<owl:Ontology rdf:about="">
+		<rdfs:comment>A ontology for EC2 IAM RBAC</rdfs:comment>
+	</owl:Ontology>
 <owl:Class rdf:ID="Ec2Resources" />
 <owl:Class rdf:ID="Ec2Actions" />
+<owl:ObjectProperty rdf:ID="appliesTo">
+	<rdfs:domain rdf:resource="#Ec2Actions"/>
+	<rdfs:range rdf:resource="#Ec2Resources" />
+</owl:ObjectProperty>
+<owl:ObjectProperty rdf:ID="requires">
+	<rdfs:domain rdf:resource="#Ec2Actions"/>
+	<rdfs:range rdf:resource="#Ec2Resources" />
+	<rdfs:subPropertyOf rdf:resource="#appliesTo"/>
+</owl:ObjectProperty>
 <Ec2Resources rdf:ID="elastic-ip" />
 <Ec2Resources rdf:ID="capacity-reservation" />
 <Ec2Resources rdf:ID="carrier-gateway" />
@@ -506,3 +528,5 @@
 <Ec2Actions rdf:ID="UpdateSecurityGroupRuleDescriptionsEgress" />
 <Ec2Actions rdf:ID="UpdateSecurityGroupRuleDescriptionsIngress" />
 <Ec2Actions rdf:ID="WithdrawByoipCidr" />
+
+</rdf:RDF>
