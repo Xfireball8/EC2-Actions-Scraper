@@ -10,9 +10,9 @@ pipeline {
         /* TODO : Test for vulnerability */
 
         /* TODO : Test for Code Quality */
-/*       pylint app/ec2CheatsheetScraper/spiders/actionsscraper.py
-  */    
-        /* TODO : Units∂ Tests */
+        pylint app/ec2CheatsheetScraper/spiders/actionsscraper.py
+
+        /* TODO : Units Tests */
 
         /* TODO : Test for image vulnerability */
       }
