@@ -8,7 +8,7 @@ pipeline {
       steps {
         echo 'Testing...'
         /* Pyflakes, linter, Sloc */
-        make 
+        sh 'make' 
      }
     }
   
