@@ -5,39 +5,6 @@
 import scrapy
 import sys
 
-# I am the class that scrape Amazon EC2 RBAC information page, i will 
-# get actions and resources, and properties formatted in a way that follow 
-# ontology definitions. My result is used by the ontology builder.
-#
-# For the moment the way i export these data is the following : 
-# { 'res' <- This is bad from a quality code PoV but is enforced by
-#            json.load() function. Json.load() functions needs a one and only top 
-#            level object or it doesn't work.
-#           : [
-#               {'classID_1' : [
-#                   {  'individualID_1' => value, 
-#                      'properties' : => [
-#                            {'propertyName_1' : value, 'range' : value},
-#                           ...
-#                            {'propertyName_n' : value, 'range' : value},
-#                        ],
-#                   },
-#                    .
-#                    .
-#                    .
-#                   {  'individualID_N' => value, 
-#                      'properties' : => [
-#                            {'propertyName_1' : value, 'range' : value},
-#                           ...
-#                            {'propertyName_n' : value, 'range' : value},
-#                        ],
-#                   },
-#
-#                ]
-#            }
-#       ]
-# }
-
 class ActionsScrapper(scrapy.Spider):
     name = 'actionsscraper'
     start_urls = ['https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html#amazonec2-resources-for-iam-policies']
@@ -105,7 +72,7 @@ class actionTableParser():
         entries = list()
         index = 0
         
-        while index < len(actionTableHtmlRows) :
+        while index < len(actionTableHtmlRows):
             entry = {'actionName' : "", 'resources' : ""}
             offsetToTheNextEntry = self.getOffsetToTheNextEntry(actionTableHtmlRows, index)
             entry['actionName'] = self.getActionName(actionTableHtmlRows, index)
@@ -126,7 +93,7 @@ class actionTableParser():
         offset = 1
         
         if index < (len(actionTableHtmlRows) - 1):
-            while not(self.isHtmlRowIsBeginningOfActionEntry(actionTableHtmlRows, index+offset)) :
+            while not(self.isHtmlRowIsBeginningOfActionEntry(actionTableHtmlRows, index+offset)):
                 offset += 1
         return offset
 
@@ -137,7 +104,7 @@ class actionTableParser():
     # Input : actionTableHtmlRows - Selector List of Html Rows (Selector List)
     #         index - Index of the HTML Row that we are checking (Integer)
     # Output : Boolean
-    def isHtmlRowIsBeginningOfActionEntry(self, actionTableHtmlRows, index) : 
+    def isHtmlRowIsBeginningOfActionEntry(self, actionTableHtmlRows, index): 
         scrapedActionsNameColumn = actionTableHtmlRows[index].xpath('./td')[0].xpath('./a[@href]/text()')
         if len(scrapedActionsNameColumn) > 0:
             return True
@@ -149,7 +116,7 @@ class actionTableParser():
     # Input : actionTableHtmlRows - Scrapy Selector List of Html rows ( Selector List)
     #         index - Index of the HTML Row containing our action name. (Integer)
     # Output : String - Name of the Action
-    def getActionName(self, actionTableHtmlRows, index) :     
+    def getActionName(self, actionTableHtmlRows, index):
         return actionTableHtmlRows[index].xpath('./td')[0].xpath('./a[@href]/text()')[0].extract().strip()
 
     # I am the method that extract the resource from the HTML Rows of an Action entry.
@@ -158,7 +125,7 @@ class actionTableParser():
     #          index - Index of the first Html Row describing the Action Entry (Integer)
     #          offsetToTheNextEntry - Explicit (Integer)
     # Output : resources - List of resources (String List)
-    def getResources(self, actionTableHtmlRows, index, offsetToTheNextEntry) :
+    def getResources(self, actionTableHtmlRows, index, offsetToTheNextEntry):
         resources = list()
         
         for offset in range(0,offsetToTheNextEntry):
@@ -170,9 +137,9 @@ class actionTableParser():
     # Input : actionTableHtmlRows - Scrapy Selector List of Html Rows ( Selector List)
     #         index - Index of the Html row to extract the resource 
     # Output :  String - Resource Name
-    def getResourceFromHtmlRow(self, actionTableHtmlRows, index) :
+    def getResourceFromHtmlRow(self, actionTableHtmlRows, index):
 #        print("DEBUG getResourceFromHtmlRow INDEX :" + str(index))
-        if self.isHtmlRowIsBeginningOfActionEntry(actionTableHtmlRows, index) :
+        if self.isHtmlRowIsBeginningOfActionEntry(actionTableHtmlRows, index):
             if self.hasBeginningOfEntryHtmlRowAResource(actionTableHtmlRows, index):
                 return actionTableHtmlRows[index].xpath('./td')[3].xpath('./p/a/text()')[0].extract().strip()
         else:
