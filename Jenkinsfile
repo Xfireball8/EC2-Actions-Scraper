@@ -7,15 +7,9 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing...'
-        /* TODO : Test for vulnerability */
-
-        /* TODO : Test for Code Quality */
-        pylint code/ec2CheatsheetScraper/spiders/actionsscraper.py
-
-        /* TODO : Units Tests */
-
-        /* TODO : Test for image vulnerability */
-      }
+        /* Pyflakes, linter, Sloc */
+        make 
+     }
     }
   
     stage('Integrate') {
