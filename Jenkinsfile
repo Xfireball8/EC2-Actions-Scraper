@@ -8,7 +8,7 @@ pipeline {
       steps {
         echo 'Testing...'
         /* Pyflakes, linter, Sloc */
-        sh 'make' 
+        sh 'pylint app/ec2CheatsheetScraper/spiders/actionsscraper.py' 
      }
     }
   
